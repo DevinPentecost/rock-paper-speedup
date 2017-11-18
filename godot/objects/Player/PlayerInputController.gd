@@ -1,6 +1,7 @@
 extends Node
 
-onready var MOVES = load("res://scripts/ChoiceEnum.gd").MOVES
+onready var MOVES_MODULE = load("res://scripts/ChoiceEnum.gd")
+onready var MOVES = MOVES_MODULE.MOVES
 
 #Are we an AI?
 var AI = false #Controlled by a player or not?
@@ -28,16 +29,26 @@ func set_move(move_index):
 func give_result_AI(opponent_choice):
 	OPPONENT_HISTORY.append(opponent_choice)
 
-func get_move():
+func get_move(reset=true):
 	#Are we an AI?
+	var active_move = MOVES.NEUTRAL
 	if AI:
 		#We need to get one via AI
-		return get_move_AI(AI_SMART)
-		
+		active_move = get_move_AI(AI_SMART)
+	else:
+		active_move = current_move
+	
+	#Should we reset it too?
+	if reset:
+		current_move = MOVES.NEUTRAL
+	
+	#Return that move
+	return active_move
+	
 func get_move_AI(difficulty):
 	
 	#What kind of AI?
-	if not AI_SMART:
+	if not difficulty:
 		#Random choice
 		return possible_moves[randi() % possible_moves.size()]
 	else:
@@ -48,9 +59,9 @@ func get_move_AI(difficulty):
 			return get_move_AI(false)
 		
 		#Calculate odds
-		var odds_rock = (OPPONENT_HISTORY.count(MOVES.ROCK) / total_moves)
-		var odds_paper = (OPPONENT_HISTORY.count(MOVES.PAPER) / total_moves)
-		var odds_scissors = (OPPONENT_HISTORY.count(MOVES.SCISSORS) / total_moves)
+		var odds_rock = (1.0 * OPPONENT_HISTORY.count(MOVES.ROCK) / total_moves)
+		var odds_paper = (1.0 * OPPONENT_HISTORY.count(MOVES.PAPER) / total_moves)
+		var odds_scissors = (1.0 * OPPONENT_HISTORY.count(MOVES.SCISSORS) / total_moves)
 		var all_odds = [odds_rock, odds_paper, odds_scissors]
 		
 		#Pick one
@@ -60,7 +71,7 @@ func get_move_AI(difficulty):
 			#Check the odds
 			var odds = all_odds[index]
 			if current + odds >= random:
-				return possible_moves[index]
+				return MOVES_MODULE.Find_Winning_Move(possible_moves[index])
 			
 			#Keep counting
 			current += odds
