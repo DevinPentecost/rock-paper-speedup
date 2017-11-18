@@ -10,6 +10,7 @@ export var current_player = 0
 var AI = false #Controlled by a player or not?
 var AI_SMART = false #Easy or hard?
 var OPPONENT_HISTORY = []
+onready var odds_text = get_node("../AI Odds")
 
 var possible_moves = null
 var current_move = null
@@ -69,6 +70,7 @@ func get_move_AI(difficulty):
 		var odds_paper = (1.0 * OPPONENT_HISTORY.count(MOVES.PAPER) / total_moves)
 		var odds_scissors = (1.0 * OPPONENT_HISTORY.count(MOVES.SCISSORS) / total_moves)
 		var all_odds = [odds_rock, odds_paper, odds_scissors]
+		odds_text.set_text("Odds: " + str(all_odds))
 		
 		#Pick one
 		var random = randf()
@@ -82,8 +84,8 @@ func get_move_AI(difficulty):
 			#Keep counting
 			current += odds
 		
-		#For some reason we failed
-		return MOVES.NEUTRAL
+		#Not really sure, just pick randomly
+		return get_move_AI(false)
 
 
 func _input(input_event):

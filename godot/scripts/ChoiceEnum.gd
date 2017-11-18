@@ -59,7 +59,7 @@ static func Calculate_Scores(player_0_moves, player_1_moves):
 			player_1_score -= 1
 			
 		#Did player 0 win
-		if not winner:
+		if winner:
 			player_0_score += 1
 		else:
 			player_1_score += 1

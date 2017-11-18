@@ -12,10 +12,6 @@
 transform/pos = Vector2( 150, 200 )
 transform/scale = Vector2( 5, 5 )
 
-[node name="PlayerInputController" parent="Player0"]
-
-current_player = 0
-
 [node name="Game" type="Sprite" parent="."]
 
 transform/pos = Vector2( 300, 200 )
