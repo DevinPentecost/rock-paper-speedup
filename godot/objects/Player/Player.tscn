@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=1]
+
+[ext_resource path="res://objects/Player/player_neutral.png" type="Texture" id=1]
+[ext_resource path="res://objects/Player/Player.gd" type="Script" id=2]
+[ext_resource path="res://objects/Player/PlayerInputController.gd" type="Script" id=3]
+
+[node name="Player" type="Sprite"]
+
+texture = ExtResource( 1 )
+script/script = ExtResource( 2 )
+
+[node name="PlayerInputController" type="Node" parent="."]
+
+script/script = ExtResource( 3 )
+
+

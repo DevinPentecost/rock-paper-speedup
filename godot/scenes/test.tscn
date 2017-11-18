@@ -1,0 +1,38 @@
+[gd_scene load_steps=3 format=1]
+
+[ext_resource path="res://objects/Player/Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://objects/GameController/GameController.gd" type="Script" id=2]
+
+[node name="Root" type="Node"]
+
+[node name="Player0" parent="." instance=ExtResource( 1 )]
+
+transform/pos = Vector2( 150, 200 )
+transform/scale = Vector2( 5, 5 )
+
+[node name="Game" type="Sprite" parent="."]
+
+transform/pos = Vector2( 300, 200 )
+script/script = ExtResource( 2 )
+
+[node name="TimeDebug" type="Label" parent="Game"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = -192.0
+margin/top = 139.0
+margin/right = -152.0
+margin/bottom = 153.0
+text = "1"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Player1" parent="." instance=ExtResource( 1 )]
+
+transform/pos = Vector2( 450, 200 )
+transform/scale = Vector2( -5, 5 )
+
+
