@@ -27,6 +27,9 @@ func get_move():
 	player_move = player_controller.get_move(true)
 	return player_move
 
+func give_result_AI(move):
+	player_controller.give_result_AI(move)
+
 func change_sprite(move):
 	
 	#Which was selected?

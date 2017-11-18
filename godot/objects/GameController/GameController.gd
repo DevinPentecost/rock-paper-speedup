@@ -16,8 +16,8 @@ onready var timer = get_node("./Timer")
 onready var debug_text = get_node("./TimeDebug")
 
 #Is player 1 AI?
-var player_1_AI = false
-var player_1_difficulty = false
+var player_1_AI = true
+var player_1_difficulty = true
 
 #Stuff related to rounds
 var current_round = 0
@@ -54,8 +54,7 @@ func _ready():
 	player_1.call_deferred("set_AI", player_1_AI, player_1_difficulty)
 	
 	#Set the AI for both for now
-	player_0.call_deferred("set_AI", true, false)
-	player_1.call_deferred("set_AI", true, true)
+	#player_0.call_deferred("set_AI", true, false)
 	
 	
 	#Kick off the timer
@@ -66,7 +65,6 @@ func _ready():
 func handle_timer():
 	#How long till the next beat?
 	var beat_time = 60.0 / current_tempo
-	print(beat_time)
 	
 	#And increment the counter and set the time
 	timer.set_wait_time(beat_time)
@@ -106,6 +104,10 @@ func _on_timer_timeout_tempo():
 		player_0.change_sprite(latest_player0_move)
 		player_1.change_sprite(latest_player1_move)
 		
+		#Updade the AI if needed
+		player_0.give_result_AI(latest_player1_move)
+		player_1.give_result_AI(latest_player0_move)
+		
 		#Play the sound for the winner
 		if latest_winner == null:
 			#No one wins!
@@ -114,11 +116,11 @@ func _on_timer_timeout_tempo():
 		elif not latest_winner:
 			#Player 0 won
 			sfx.set_stream(player_0_win)
-			set_texture(player_0_win)
+			set_texture(sprite_player_0_win)
 		else:
 			#Player 1 win
 			sfx.set_stream(player_1_win)
-			set_texture(player_1_win)
+			set_texture(sprite_player_1_win)
 		
 		#Did we finish the game?
 		current_round += 1

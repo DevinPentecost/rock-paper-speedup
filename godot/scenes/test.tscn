@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=1]
+[gd_scene load_steps=5 format=1]
 
 [ext_resource path="res://objects/Player/Player.tscn" type="PackedScene" id=1]
-[ext_resource path="res://objects/GameController/GameController.gd" type="Script" id=2]
-[ext_resource path="res://objects/GameController/tone2.ogg" type="AudioStream" id=3]
+[ext_resource path="res://objects/GameController/no_win.png" type="Texture" id=2]
+[ext_resource path="res://objects/GameController/GameController.gd" type="Script" id=3]
+[ext_resource path="res://objects/GameController/tone2.ogg" type="AudioStream" id=4]
 
 [node name="Root" type="Node"]
 
@@ -14,7 +15,8 @@ transform/scale = Vector2( 5, 5 )
 [node name="Game" type="Sprite" parent="."]
 
 transform/pos = Vector2( 300, 200 )
-script/script = ExtResource( 2 )
+texture = ExtResource( 2 )
+script/script = ExtResource( 3 )
 
 [node name="TimeDebug" type="Label" parent="Game"]
 
@@ -33,7 +35,7 @@ max_lines_visible = -1
 
 [node name="SFX" type="StreamPlayer" parent="Game"]
 
-stream/stream = ExtResource( 3 )
+stream/stream = ExtResource( 4 )
 stream/play = false
 stream/loop = false
 stream/volume_db = 0.0

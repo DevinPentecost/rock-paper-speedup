@@ -3,6 +3,9 @@ extends Node
 onready var MOVES_MODULE = load("res://scripts/ChoiceEnum.gd")
 onready var MOVES = MOVES_MODULE.MOVES
 
+#Which player are we?
+var current_player = 0
+
 #Are we an AI?
 var AI = false #Controlled by a player or not?
 var AI_SMART = false #Easy or hard?
@@ -22,6 +25,9 @@ func _ready():
 	MOVES.PAPER,
 	MOVES.SCISSORS
 	]
+	
+	#Wait for input events
+	set_process_input(true)
 
 func set_move(move_index):
 	current_move = possible_moves[move_index]
@@ -78,3 +84,23 @@ func get_move_AI(difficulty):
 		
 		#For some reason we failed
 		return MOVES.NEUTRAL
+
+
+func _input(input_event):
+	
+	#Check the input key
+	if input_event.type == InputEvent.KEY:
+		if current_player == 0:
+			if input_event.is_action_pressed("player_0_r"):
+				current_move = MOVES.ROCK
+			elif input_event.is_action_pressed("player_0_p"):
+				current_move = MOVES.PAPER
+			elif input_event.is_action_pressed("player_0_s"):
+				current_move = MOVES.SCISSORS
+		if current_player == 1:
+			if input_event.is_action_pressed("player_1_r"):
+				current_move = MOVES.ROCK
+			elif input_event.is_action_pressed("player_1_p"):
+				current_move = MOVES.PAPER
+			elif input_event.is_action_pressed("player_1_s"):
+				current_move = MOVES.SCISSORS
