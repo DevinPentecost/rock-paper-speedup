@@ -1,0 +1,95 @@
+[gd_scene load_steps=2 format=1]
+
+[ext_resource path="res://objects/GUI/MainMenu.gd" type="Script" id=1]
+
+[node name="Node" type="Node"]
+
+script/script = ExtResource( 1 )
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+
+anchor/left = 3
+anchor/top = 3
+anchor/right = 3
+anchor/bottom = 3
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 233.0
+margin/top = 182.0
+margin/right = -263.0
+margin/bottom = -23.0
+bbcode/enabled = true
+bbcode/bbcode = "Rock, Paper, Speedup!
+
+Play Rock, Paper, Scissors, but make sure you keep up!
+
+Player 1:
+Q=Rock
+A=Paper
+Z=Scissors
+
+Player 2:
+O=Rock
+K=Paper
+M=Scissors"
+visible_characters = -1
+percent_visible = 1.0
+
+[node name="Two-Player Button" type="Button" parent="."]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 66.0
+margin/top = 289.0
+margin/right = 200.0
+margin/bottom = 345.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "Play Two-Player"
+flat = false
+
+[node name="CheckButton" type="CheckButton" parent="."]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 340.0
+margin/top = 250.0
+margin/right = 471.0
+margin/bottom = 272.0
+toggle_mode = true
+enabled_focus_mode = 2
+shortcut = null
+text = "Smart AI"
+flat = false
+align = 0
+
+[node name="One-Player Button" type="Button" parent="."]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 345.0
+margin/top = 285.0
+margin/right = 461.0
+margin/bottom = 339.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "Play against AI"
+flat = false
+
+[connection signal="pressed" from="Two-Player Button" to="." method="_on_TwoPlayer_Button_pressed"]
+
+[connection signal="toggled" from="CheckButton" to="." method="_on_CheckButton_toggled"]
+
+[connection signal="pressed" from="One-Player Button" to="." method="_on_OnePlayer_Button_pressed"]
+
+

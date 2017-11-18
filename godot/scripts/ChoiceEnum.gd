@@ -41,3 +41,28 @@ static func Find_Winning_Move(losing_move):
 	
 	#If it's arbitrary, just pick rock because they ROCK!
 	return MOVES.ROCK
+	
+static func Calculate_Scores(player_0_moves, player_1_moves):
+	#Go through each move
+	var player_0_score = 0
+	var player_1_score = 0
+	for move_index in range(0, player_0_moves.size()):
+		#Get the moves
+		var player_0_move = player_0_moves[move_index]
+		var player_1_move = player_1_moves[move_index]
+		
+		#Did anyone win?
+		var winner = Move_Wins(player_0_move, player_1_move)
+		if winner == null:
+			#No one won
+			player_0_score -= 1
+			player_1_score -= 1
+			
+		#Did player 0 win
+		if not winner:
+			player_0_score += 1
+		else:
+			player_1_score += 1
+			
+	#Return the final score
+	return [player_0_score, player_1_score]

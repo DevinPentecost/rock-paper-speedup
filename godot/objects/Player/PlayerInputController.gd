@@ -4,7 +4,7 @@ onready var MOVES_MODULE = load("res://scripts/ChoiceEnum.gd")
 onready var MOVES = MOVES_MODULE.MOVES
 
 #Which player are we?
-var current_player = 0
+export var current_player = 0
 
 #Are we an AI?
 var AI = false #Controlled by a player or not?

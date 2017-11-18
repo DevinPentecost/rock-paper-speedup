@@ -12,6 +12,10 @@
 transform/pos = Vector2( 150, 200 )
 transform/scale = Vector2( 5, 5 )
 
+[node name="PlayerInputController" parent="Player0"]
+
+current_player = 0
+
 [node name="Game" type="Sprite" parent="."]
 
 transform/pos = Vector2( 300, 200 )
@@ -56,4 +60,10 @@ autostart = false
 transform/pos = Vector2( 450, 200 )
 transform/scale = Vector2( -5, 5 )
 
+[node name="PlayerInputController" parent="Player1"]
 
+current_player = 1
+
+
+[editable path="Player0"]
+[editable path="Player1"]

@@ -50,6 +50,10 @@ func _ready():
 	# Called every time the node is added to the scene.
 	# Initialization here
 	
+	#grab the player setup
+	player_1_AI = global.player_1_AI
+	player_1_difficulty = global.player_1_difficulty
+	
 	#Lets update player 1 if needed
 	player_1.call_deferred("set_AI", player_1_AI, player_1_difficulty)
 	
@@ -126,7 +130,7 @@ func _on_timer_timeout_tempo():
 		current_round += 1
 		if current_round >= total_rounds:
 			#We're done
-			print("GAME IS DONE!")
+			get_tree().change_scene("res://scenes/Score.tscn")
 			return
 		
 		#Do we increase tempo?
@@ -148,6 +152,10 @@ func get_winner():
 	#What did each player choose?
 	latest_player0_move = player_0.get_move()
 	latest_player1_move = player_1.get_move()
+	
+	#Update the history
+	global.player_0_moves.append(latest_player0_move)
+	global.player_1_moves.append(latest_player1_move)
 	
 	#Did player 0 win?
 	var player0_winner = MOVES_MODULE.Move_Wins(latest_player0_move, latest_player1_move)
