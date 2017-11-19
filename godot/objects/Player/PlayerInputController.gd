@@ -70,7 +70,10 @@ func get_move_AI(difficulty):
 		var odds_paper = (1.0 * OPPONENT_HISTORY.count(MOVES.PAPER) / total_moves)
 		var odds_scissors = (1.0 * OPPONENT_HISTORY.count(MOVES.SCISSORS) / total_moves)
 		var all_odds = [odds_rock, odds_paper, odds_scissors]
-		odds_text.set_text("Odds: " + str(all_odds))
+		
+		#Should we display
+		if global.DEBUG:
+			odds_text.set_text("Odds: " + str(all_odds))
 		
 		#Pick one
 		var random = randf()

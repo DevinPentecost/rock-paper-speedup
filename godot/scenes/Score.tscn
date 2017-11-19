@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=1]
+[gd_scene load_steps=3 format=1]
 
 [ext_resource path="res://objects/GUI/Score.gd" type="Script" id=1]
+[ext_resource path="res://objects/ScoreGraph/ScoreGraph.gd" type="Script" id=2]
 
 [node name="Node" type="Node"]
 
@@ -30,16 +31,30 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 231.0
-margin/top = 211.0
-margin/right = 397.0
-margin/bottom = 274.0
+margin/left = 218.0
+margin/top = 303.0
+margin/right = 384.0
+margin/bottom = 366.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 text = "Main Menu"
 flat = false
 
+[node name="ScoreGraph" type="Position2D" parent="."]
+
+transform/pos = Vector2( 300, 200 )
+script/script = ExtResource( 2 )
+
+[node name="Timer" type="Timer" parent="ScoreGraph"]
+
+process_mode = 1
+wait_time = 1.0
+one_shot = false
+autostart = false
+
 [connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]
+
+[connection signal="timeout" from="ScoreGraph/Timer" to="ScoreGraph" method="_on_Timer_timeout"]
 
 

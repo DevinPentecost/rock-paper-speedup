@@ -27,19 +27,24 @@ var latest_player0_move = null
 var latest_player1_move = null
 
 #Stuff related to tempo and music
-var start_tempo = 60 #BPM
+var start_tempo =  60 #BPM
 var current_tempo = start_tempo
 var tempo_increase_cadence = 4 #How many rounds
 var tempo_increase_amount = 20 #BPM
 var beat_count = 0
 
 #Sounds
-onready var tone = load("res://objects/GameController/tone.ogg")
-onready var tone2 = load("res://objects/GameController/tone2.ogg")
-onready var player_0_win = load("res://objects/GameController/player_0_win.ogg")
-onready var player_1_win = load("res://objects/GameController/player_1_win.ogg")
-onready var lose = load("res://objects/GameController/lose.ogg")
-onready var sfx = get_node("./SFX")
+onready var tone1 = load("res://objects/GameController/Tone1.ogg")
+onready var tone24 = load("res://objects/GameController/Tone2-4.ogg")
+onready var tone3 = load("res://objects/GameController/Tone3.ogg")
+onready var tone5 = load("res://objects/GameController/Tone5.ogg")
+onready var tone6 = load("res://objects/GameController/Tone6.ogg")
+onready var win1 = load("res://objects/GameController/Win1.ogg")
+onready var win2 = load("res://objects/GameController/Win2.ogg")
+onready var lose = load("res://objects/GameController/Lose.ogg")
+var sfx_dict = {}
+var sfx_node_dict = {}
+onready var tween = get_node("./Tween")
 
 #Some sprites
 onready var sprite_player_0_win = load("res://objects/GameController/player_0_win.png")
@@ -49,6 +54,34 @@ onready var sprite_no_win = load("res://objects/GameController/no_win.png")
 func _ready():
 	# Called every time the node is added to the scene.
 	# Initialization here
+	
+	#Are we on debug?
+	if global.DEBUG:
+		current_tempo = 2000
+		player_0.call_deferred("set_AI", true, true)
+	
+	#Set up all the sound madness
+	sfx_dict = {
+	'Tone1': tone1,
+	'Tone24': tone24,
+	'Tone3': tone3,
+	'Tone5': tone5,
+	'Tone6': tone6,
+	'Win1': win1,
+	'Win2': win2,
+	'Lose': lose,
+	}
+	
+	#Make SFX objects for each
+	for sfx in sfx_dict:
+		#Make the node, set it up, and add it
+		var new_sfx_node = StreamPlayer.new()
+		new_sfx_node.set_stream(sfx_dict[sfx])
+		new_sfx_node.set_autoplay(false)
+		add_child(new_sfx_node)
+		
+		#Track the node
+		sfx_node_dict[sfx] = new_sfx_node
 	
 	#grab the player setup
 	player_1_AI = global.player_1_AI
@@ -69,6 +102,7 @@ func _ready():
 func handle_timer():
 	#How long till the next beat?
 	var beat_time = 60.0 / current_tempo
+	var half_beat_time = beat_time / 2
 	
 	#And increment the counter and set the time
 	timer.set_wait_time(beat_time)
@@ -76,15 +110,24 @@ func handle_timer():
 	#Fire off the timer
 	timer.start()
 	
-	#Update some debug stuff here
-	var text = "R:" + str(current_round) + " B:" + str(beat_count) + " T:" + str(current_tempo)
-	debug_text.set_text(text)
+	#Update some debug stuff 
+	if global.DEBUG:
+		var text = "R:" + str(current_round) + " B:" + str(beat_count) + " T:" + str(current_tempo)
+		debug_text.set_text(text)
 	
 func _on_timer_timeout_tempo():
+	#How long till the next beat?
+	var beat_time = 60.0 / current_tempo
+	var half_beat_time = beat_time / 2
+	
+	#Clear the tween
+	tween.remove_all()
+	
 	#Which beat were we on?
 	if beat_count == 0:
 		#We can play the noise
-		sfx.set_stream(tone)
+		_play_sfx("Tone1")
+		tween.interpolate_deferred_callback(self, half_beat_time, "_play_sfx", "Tone24")
 		set_texture(null)
 		
 		#Reset player sprites
@@ -93,10 +136,12 @@ func _on_timer_timeout_tempo():
 		
 	elif beat_count == 1:
 		#Play the same noise
-		sfx.set_stream(tone)
+		_play_sfx("Tone3")
+		tween.interpolate_deferred_callback(self, half_beat_time, "_play_sfx", "Tone24")
 	elif beat_count == 2:
 		#Play the different noise
-		sfx.set_stream(tone2)
+		_play_sfx("Tone5")
+		tween.interpolate_deferred_callback(self, half_beat_time, "_play_sfx", "Tone6")
 		
 		#We need to get the moves for each player
 		#Also reset their moves
@@ -115,15 +160,15 @@ func _on_timer_timeout_tempo():
 		#Play the sound for the winner
 		if latest_winner == null:
 			#No one wins!
-			sfx.set_stream(lose)
+			_play_sfx("Lose")
 			set_texture(sprite_no_win)
 		elif not latest_winner:
 			#Player 0 won
-			sfx.set_stream(player_0_win)
+			_play_sfx("Win1")
 			set_texture(sprite_player_0_win)
 		else:
 			#Player 1 win
-			sfx.set_stream(player_1_win)
+			_play_sfx("Win2")
 			set_texture(sprite_player_1_win)
 		
 		#Did we finish the game?
@@ -140,8 +185,8 @@ func _on_timer_timeout_tempo():
 		#Reset the counter
 		beat_count = -1
 	
-	#Play the appropriate sound
-	sfx.play()
+	#Play the tween
+	tween.start()
 	
 	#Increment beat and fire off the timer again
 	beat_count += 1
@@ -160,3 +205,9 @@ func get_winner():
 	#Did player 0 win?
 	var player0_winner = MOVES_MODULE.Move_Wins(latest_player0_move, latest_player1_move)
 	return player0_winner
+	
+func _play_sfx(sfx_name):
+	#Get the player
+	if sfx_node_dict.has(sfx_name):
+		sfx_node_dict[sfx_name].play()
+	

@@ -17,11 +17,18 @@ onready var scissors_sprite = load("res://objects/Player/player_scissors.png")
 
 #Player states
 var player_move = null
+export var current_player = 0
 
 func _ready():
 	# Called every time the node is added to the scene.
 	# Initialization here
 	player_move = MOVES.NEUTRAL
+	
+	#Modify the sprite tint
+	set_modulate(global.PLAYER_1_COLOR)
+	if current_player == 0:
+		set_modulate(global.PLAYER_0_COLOR)
+	
 	
 func get_move():
 	player_move = player_controller.get_move(true)
