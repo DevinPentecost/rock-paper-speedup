@@ -21,16 +21,16 @@ var player_1_difficulty = true
 
 #Stuff related to rounds
 var current_round = 0
-var total_rounds = 50
+var total_rounds = 35
 var latest_winner = null
 var latest_player0_move = null
 var latest_player1_move = null
 
 #Stuff related to tempo and music
-var start_tempo =  60 #BPM
+var start_tempo =  100 #BPM
 var current_tempo = start_tempo
 var tempo_increase_cadence = 4 #How many rounds
-var tempo_increase_amount = 20 #BPM
+var tempo_increase_amount = 25 #BPM
 var beat_count = 0
 
 #Sounds
