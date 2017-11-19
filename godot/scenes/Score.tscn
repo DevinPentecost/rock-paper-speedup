@@ -1,11 +1,17 @@
-[gd_scene load_steps=3 format=1]
+[gd_scene load_steps=4 format=1]
 
 [ext_resource path="res://objects/GUI/Score.gd" type="Script" id=1]
-[ext_resource path="res://objects/ScoreGraph/ScoreGraph.gd" type="Script" id=2]
+[ext_resource path="res://gfx/background.png" type="Texture" id=2]
+[ext_resource path="res://objects/ScoreGraph/ScoreGraph.gd" type="Script" id=3]
 
 [node name="Node" type="Node"]
 
 script/script = ExtResource( 1 )
+
+[node name="background" type="Sprite" parent="."]
+
+transform/pos = Vector2( 300, 200 )
+texture = ExtResource( 2 )
 
 [node name="Score" type="RichTextLabel" parent="."]
 
@@ -17,7 +23,7 @@ margin/left = 167.0
 margin/top = 8.0
 margin/right = 455.0
 margin/bottom = 166.0
-bbcode/enabled = false
+bbcode/enabled = true
 bbcode/bbcode = "Final Score:
 
 Player1 Vs. Player2
@@ -44,7 +50,7 @@ flat = false
 [node name="ScoreGraph" type="Position2D" parent="."]
 
 transform/pos = Vector2( 300, 200 )
-script/script = ExtResource( 2 )
+script/script = ExtResource( 3 )
 
 [node name="Timer" type="Timer" parent="ScoreGraph"]
 

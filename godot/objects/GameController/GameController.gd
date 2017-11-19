@@ -47,8 +47,7 @@ var sfx_node_dict = {}
 onready var tween = get_node("./Tween")
 
 #Some sprites
-onready var sprite_player_0_win = load("res://objects/GameController/player_0_win.png")
-onready var sprite_player_1_win = load("res://objects/GameController/player_1_win.png")
+onready var sprite_player_win = load("res://objects/GameController/player_win.png")
 onready var sprite_no_win = load("res://objects/GameController/no_win.png")
 
 func _ready():
@@ -162,14 +161,24 @@ func _on_timer_timeout_tempo():
 			#No one wins!
 			_play_sfx("Lose")
 			set_texture(sprite_no_win)
-		elif not latest_winner:
+			set_modulate(global.FAIL_COLOR)
+			
+		elif latest_winner:
 			#Player 0 won
 			_play_sfx("Win1")
-			set_texture(sprite_player_0_win)
+			set_texture(sprite_player_win)
+			var scale = get_scale()
+			scale.x = abs(scale.x)
+			set_scale(scale)
+			set_modulate(global.PLAYER_0_TINT)
 		else:
 			#Player 1 win
 			_play_sfx("Win2")
-			set_texture(sprite_player_1_win)
+			set_texture(sprite_player_win)
+			var scale = get_scale()
+			scale.x = -abs(scale.x)
+			set_scale(scale)
+			set_modulate(global.PLAYER_1_TINT)
 		
 		#Did we finish the game?
 		current_round += 1

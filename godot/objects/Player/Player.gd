@@ -25,9 +25,9 @@ func _ready():
 	player_move = MOVES.NEUTRAL
 	
 	#Modify the sprite tint
-	set_modulate(global.PLAYER_1_COLOR)
+	set_modulate(global.PLAYER_1_TINT)
 	if current_player == 0:
-		set_modulate(global.PLAYER_0_COLOR)
+		set_modulate(global.PLAYER_0_TINT)
 	
 	
 func get_move():

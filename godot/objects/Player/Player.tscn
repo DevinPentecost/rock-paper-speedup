@@ -6,8 +6,10 @@
 
 [node name="Player" type="Sprite"]
 
+transform/scale = Vector2( 5, 5 )
 texture = ExtResource( 1 )
 script/script = ExtResource( 2 )
+current_player = 0
 
 [node name="PlayerInputController" type="Node" parent="."]
 
